@@ -1,0 +1,3 @@
+Minha primeira nota	geral	Primeira nota
+Minha segunda nota	geral	Segunda nota
+Minha terceira nota	tech	Python é legal
