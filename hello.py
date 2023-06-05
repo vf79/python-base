@@ -42,12 +42,14 @@ for arg in sys.argv[1:]:
         print(f"You passed {arg}")
         print("try with --key=value")
         sys.exit(1)
-
+    
     key = key.lstrip("-").strip()
     value = value.strip()
+    # Validation
     if key not in arguments:
         print(f"Invalid Option `{key}`")
         sys.exit
+
     arguments[key] = value
 
 current_language = arguments["lang"]

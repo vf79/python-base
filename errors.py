@@ -3,11 +3,13 @@
 import sys
 import os
 
+
 # EAFP - Easy to ASK Forgiveness than permission
 # (É mais fácil pedir perdão do que permissão)
 
+
 try:
-    names = open("names2.txt").readlines() # FileNotFoundError
+    names = open("names.txt").readlines() # FileNotFoundError
 #    1 / 1 # ZeroDivisionError
 #    print(names.append) # AttibuteError
 #except FileNotFoundError:
