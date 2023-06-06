@@ -87,5 +87,4 @@ if padaria_aberta is True:
 else:
     ficar("casa")
     comer("bolacha")
-
 """
