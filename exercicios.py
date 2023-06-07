@@ -33,20 +33,27 @@ def alarme_temp_opt():
         "umidade": None,
     }
 
-    keys = info.keys()
-    for key in keys:
-        try:
-            info[key] = float(input(f"Qual a {key}? ").strip())
-        except ValueError:
-            log.error(f"{key.capitalize()} inválida")
-            sys.exit(1)
+    while True:
+        info_size = len(info.values())
+        filled_size = len([value for value in info.values() if value is not None])
+        if info_size == filled_size:
+            break
 
-    temperatura = info["temperatura"]
-    umidade = info["umidade"]
+        keys = info.keys()
+        for key in keys:
+            if info[key] is not None:
+                continue
+            try:
+                info[key] = int(input(f"{key}:").strip())
+            except ValueError:
+                log.error("%s inválida, digite números", key)
+                break
+
+    temperatura, umidade = info.values()
 
     if temperatura > 45:
         print("ALERTA!!! Perigo calor extremo")
-    elif temperatura * 3 >= umidade:
+    elif temperatura >30 and temperatura * 3 >= umidade:
         print("ALERTA!!! Perigo calor úmido")
     elif temperatura >= 10 and  temperatura <=30:
         print("Normal")
@@ -125,82 +132,103 @@ mensagem informando que já está reservado.
 
 """
 def reserva_quarto():
-    ocupados = {}
+
+    RESERVAS_FILE = "reservas.txt"
+    QUARTOS_FILE = "quartos.txt"
+
+    # Acesso ao banco de dados
+
+    # TODO: Usar pacote csv
+
+    ocupados = {} # acumulador
     try:
-        for line in open("reservas.txt"):
-            nome, num_quarto, dias = line.strip().split(",")
+        for line in open(RESERVAS_FILE):
+            nome_cliente, num_quarto, dias = line.strip().split(",")
             ocupados[int(num_quarto)] = {
-                "nome": nome,
-                "dias": dias,
+                "nome_cliente": nome_cliente,
+                "dias": int(dias),
             }
     except FileNotFoundError:
-        logging.error("Arquivo reservas.txt não existe")
+        logging.error("Arquivo %s não existe", RESERVAS_FILE)
         sys.exit(1)
+    
+    # TODO: Usar função para ler os arquivos
 
     quartos = {}
     try:
-        for line in open("quartos.txt"):
-            codigo,nome,preco = line.strip().split(",")
-            quartos[int(codigo)] = {
-                "nome": nome,
-                "preco": float(preco), # TODO: Decimal,
-                "disponivel": False if int(codigo) in ocupados else True
+        for line in open(QUARTOS_FILE):
+            num_quarto, nome_quarto, preco = line.strip().split(",")
+            quartos[int(num_quarto)] = {
+                "nome_quarto": nome_quarto,
+                "preco": float(preco), # TODO: Usar decimal,
+                "disponivel": False if int(num_quarto) in ocupados else True,
             }
     except FileNotFoundError:
-        logging.error("Arquivo quartos.txt não existe")
+        logging.error("Arquivo %s não existe", QUARTOS_FILE)
         sys.exit(1)
 
+    # Programa principal
 
-
-    print("Reserva Hotel Pythonico")
+    print("Reservas no Hotel Pythonico do curso Python Base LinuxTips")
     print("-" * 80)
     
     if len(ocupados) == len(quartos):
-        print("Hotel Lotado")
-        sys.exit(1)
+        print("Hotel está lotado, volte depois.")
+        sys.exit(0)
 
-    nome = input("Nome do cliente:").strip()
+    nome_cliente = input("Qual é o seu nome:").strip()
+    print()
 
-    print("Lista de quartos disponíveis")
-    for codigo, dados in quartos.items():
-        nome_quarto = dados["nome"]
-        preco = dados["preco"]
-        # disponivel = dados['disponivel'] and "👍" or "⛔"
-        disponivel = "⛔" if not dados["disponivel"] else "👍"
+    # TODO: Usar rich. Table
+
+    print("Lista de quartos")
+    print()
+    head = ["Número", "Nome do Quarto", "Preço", "Disponível"]
+    print(f"{head[0]:<6} - {head[1]:<15} - R$ {head[2]:<9} - {head[3]:<10}")
+    for num_quarto, dados_quarto in quartos.items():
+        nome_quarto = dados_quarto["nome_quarto"]
+        preco = dados_quarto["preco"]
+        disponivel = "⛔" if not dados_quarto["disponivel"] else "👍"
         # TODO: Substituir casa decimal por virgula
-        print(f"{codigo} - {nome_quarto} - R$ {preco:.2f} - {disponivel}")
+        print(f"{num_quarto:<6} - {nome_quarto:<14} - R$ {preco:<9.2f} - {disponivel:<10}")
 
     print("-" * 80)
+
+    # reserva
+
     try:
-        num_quarto = int(input("Número do quarto: ").strip())
+        num_quarto = int(input("Qual o quarto desejado: ").strip())
         if not quartos[num_quarto]["disponivel"]:
-            print(f"O quarto {num_quarto} está ocupado.")
-            sys.exit(1)
-    except ValueError:
-        logging.error("Número inválido, digite apenas digitos.")
-        sys.exit(1)
+            print(f"O quarto {num_quarto} está ocupado, escolha outro.")
+            sys.exit(0)
     except KeyError:
         print(f"O quarto {num_quarto} não existe.")
-        sys.exit()
+        sys.exit(0)
+    except ValueError:
+        print("Número inválido, digite apenas digitos.")
+        sys.exit(0)
     
     try:
-        dias = int(input("quantos dias:").strip())
+        dias = int(input("Quantos dias: ").strip())
     except ValueError:
         logging.error("Número inválido, digite apenas digitos.")
-        sys.exit(1)
+        sys.exit(0)
 
-    nome_quarto = quartos[num_quarto]["nome"]
+    nome_quarto = quartos[num_quarto]["nome_quarto"]
     preco_quarto = quartos[num_quarto]["preco"]
-    disponivel = quartos[num_quarto]["disponivel"]
-    total = preco_quarto * dias
+    total = dias * preco_quarto
 
-    #print(f"{nome},{num_quarto},{dias}")
-    #print(",".join([nome, str(num_quarto), str(dias)]))
-    with open("reservas.txt", "a") as file_:
-        file_.write(f"{nome},{num_quarto},{dias}\n")
-    print(f"{nome} voce escolheu o quarto {nome_quarto} e vai custa: R${total:.2f}")
+    print(
+        f"Olá {nome_cliente}, você escolheu o quarto {nome_quarto} "
+        f"o valor total estimado será R$ {total:.2f}"
+    )
+
+    if input("Confirma? (digite y)").strip().lower() in ("y", "yes", "sim", "s"):
+        with open(RESERVAS_FILE, "a") as reserva_file:
+            reserva_file.write(f"{nome_cliente},{num_quarto},{dias}\n")
+
 
 # numeros_pares()
-# alarme_temp_opt()
+#alarme_temp_opt()
 # repete_vogal()
 reserva_quarto()
