@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
-"""Exemplos de envio de e-mail"""
+"""Exemplos de envio de e-mail
+
+Para testar o envio utilizar servidor de email fake do python rodando o comando:
+python -m smtpd -c DebuggingServer -n localhost:8025
+As mensagens serão exibidas no terminal.
+
+Para servidores reais buscar tutorial de configuração.
+"""
+
 import smtplib
 
 SERVER = "localhost"
@@ -14,6 +22,7 @@ Este é o meu e-mail enviado pelo Python
 """
 
 # SMTP
+
 message =f"""\
 From: {FROM}
 To: {", ".join(TO)}
