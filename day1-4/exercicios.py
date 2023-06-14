@@ -2,6 +2,7 @@
 
 import sys
 import logging
+from typing import Dict
 
 """
 Faça um programa que imprime os números pares de 1 a 200
@@ -28,26 +29,36 @@ Senão, se temp vezes 3 for maior ou igual a umidade: ALERTA!!! Perigo de calor 
 log = logging.Logger("alerta")
 
 def alarme_temp_opt():
+
+    # TODO: Mover para módulo de utilidades
+    def is_completely_filled(dict_of_inputs: Dict)->bool:
+        """Returns a boolean telling if a dict is completely filled"""
+        info_size = len(dict_of_inputs)
+        filled_size = len(
+            [value for value in info.values() if value is not None]
+        )
+        return info_size == filled_size
+
+
+    def read_inputs_for_dict(dict_of_info):
+        """Reads informatio for a dict from user input."""
+        for key in dict_of_info.keys(): # ["temperatura", "umidade"]
+            if dict_of_info[key] is not None:
+                continue
+            try:
+                dict_of_info[key] = int(input(f"{key}:").strip())
+            except ValueError:
+                log.error("%s inválida, digite números", key)
+                break
+    # PROGRAMA PRINCIPAL
+
     info = {
         "temperatura": None,
         "umidade": None,
     }
 
-    while True:
-        info_size = len(info.values())
-        filled_size = len([value for value in info.values() if value is not None])
-        if info_size == filled_size:
-            break
-
-        keys = info.keys()
-        for key in keys:
-            if info[key] is not None:
-                continue
-            try:
-                info[key] = int(input(f"{key}:").strip())
-            except ValueError:
-                log.error("%s inválida, digite números", key)
-                break
+    while not is_completely_filled(info):
+        read_inputs_for_dict(info)
 
     temperatura, umidade = info.values()
 
@@ -229,6 +240,6 @@ def reserva_quarto():
 
 
 # numeros_pares()
-#alarme_temp_opt()
+alarme_temp_opt()
 # repete_vogal()
-reserva_quarto()
+#reserva_quarto()
