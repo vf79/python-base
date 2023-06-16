@@ -17,10 +17,7 @@ fh = handlers.RotatingFileHandler(
     "meulog.log", maxBytes=10**6, backupCount=10
 )
 fh.setLevel(log_level)
-fmt = logging.Formatter(
-    "%(asctime)s %(name)s %(levelname)s "
-    "f:%(filename)s l:%(lineno)d: %(message)s"
-)
+
 # Formatação
 fmt = logging.Formatter(
     "%(asctime)s %(name)s %(levelname)s "
