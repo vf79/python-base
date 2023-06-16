@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "projeto_base"
+name = "python-base"
 version = "0.1.0"
 description = "Projeto base para aplicações rest usando fastapi framework"
 readme = "README.md"

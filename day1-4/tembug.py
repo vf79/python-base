@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
+
 # debug com print
-def repete_vogal_p(word:str)->str:
+def repete_vogal_p(word: str) -> str:
     """Retorna a palavra com vogais repetidas."""
     final_word = ""
     for index, letter in enumerate(word):
@@ -26,16 +27,16 @@ def repete_vogal_p(word:str)->str:
 # Opções pudb, winpdb
 
 
-def repete_vogal(word:str)->str:
+def repete_vogal(word: str) -> str:
     """Retorna a palavra com vogais repetidas."""
     final_word = ""
     for letter in word:
         if letter.lower() in "aeiouãõâêôáéíó":
-            #import pdb;pdb.set_trace()
-            #__import__("pdb").set_trace()
+            # import pdb;pdb.set_trace()
+            # __import__("pdb").set_trace()
             #
-            breakpoint() # A partir do python versão 3.7
-            1/0
+            breakpoint()  # A partir do python versão 3.7
+            1 / 0
             final_word = letter * 2
         else:
             final_word = letter

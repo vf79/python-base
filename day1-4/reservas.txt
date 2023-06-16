@@ -1,4 +1,4 @@
 Aline,1,2
 Ana,3,5
 Bianca,2,5
-Beatriz,4,10
+Marina,4,5

@@ -6,7 +6,10 @@ produto = {
     "nome": "Caneta",
     "cores": ["azul", "branco"],
     "preco": 3.23,
-    "dimensão": {"altura": 12.1, "largura": 0.8,},
+    "dimensão": {
+        "altura": 12.1,
+        "largura": 0.8,
+    },
     "em_estoque": True,
     "codigo": 45678,
     "codebar": None,
@@ -30,4 +33,4 @@ print(
     f"O cliente {compra['cliente']['nome']}"
     f" comprou {compra['quantidade']} unidades {compra['produto']['nome']}"
     f" e pagou o total de {total_compra}"
-    )
+)

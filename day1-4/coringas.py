@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 def funcao(*args, timeout=10, **kwargs):
     for item in args:
         print(item)
@@ -9,7 +10,7 @@ def funcao(*args, timeout=10, **kwargs):
     print(f"timeout {timeout}")
 
 
-funcao ("Adele", 1, True, [])
+funcao("Adele", 1, True, [])
 funcao(
     "Alice",
     1,
@@ -21,4 +22,4 @@ funcao(
     banana=1,
     panela=3,
     teclado=True,
-    )
+)

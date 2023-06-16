@@ -4,7 +4,8 @@
 Sequência de instruções lógicas que visam obter a solução de um problema.
 
 Problema: Ir a padaria e comprar pão:
-Premissa: Padaria da Esquina abre fds: até 12h, semana até 19h, feriado (exceto Natal não abre).
+Premissa: Padaria da Esquina abre fds: até 12h, semana até 19h, feriado
+(exceto Natal não abre).
 
 1. A padaria está aberta?
     1. Se é feriado e NÃO é natal: não
@@ -20,7 +21,7 @@ Premissa: Padaria da Esquina abre fds: até 12h, semana até 19h, feriado (excet
         2. Senão, se tem apenas pão integral OU baguete: Pedir 12
         3. Senão: Pedir 6 de qualquer pão
 3. Senão
-    1. Ficar em casa e comer bolachas    
+    1. Ficar em casa e comer bolachas
 --------------------------------------------------------------------------------
 Statements
 1 - Se -> if

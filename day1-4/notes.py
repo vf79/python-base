@@ -42,7 +42,7 @@ if arguments[0] == "read":
 
 
 if arguments[0] == "new":
-    title = arguments[1] # TODO: Tratar exception
+    title = arguments[1]  # TODO: Tratar exception
     text = [
         f"{title}",
         input("tag:").strip(),

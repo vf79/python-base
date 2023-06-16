@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Hello World Multi Linguas.
 
-Dependendo da lingua configurada no ambiente o programa exibe a mensagem 
+Dependendo da lingua configurada no ambiente o programa exibe a mensagem
 correspondente.
 
 Como usar:
@@ -12,33 +12,33 @@ Tenha a variável LANG devidamente configurada ex:
     export LANG=pt_BR
     Windows powershell:
     $Env:LANG="pt_BR"
-    
+
 Execução:
 
     python3 hello.py
     ou ./hello.py
 """
-__version__="0.1.3"
-__author__="vf79"
-__license__="Unlicense"
+__version__ = "0.1.3"
+__author__ = "vf79"
+__license__ = "Unlicense"
 
+import logging
 import os
 import sys
-import logging
 
 # Logging config
 log_level = os.getenv("LOG_LEVEL", "WARNING").upper()
 log = logging.Logger("PYTHON-BASE", log_level)
-ch = logging.StreamHandler() # Console/terminal/stderr
+ch = logging.StreamHandler()  # Console/terminal/stderr
 ch.setLevel(log_level)
 fmt = logging.Formatter(
-    '%(asctime)s %(name)s %(levelname)s '
-    'f:%(filename)s l:%(lineno)d: %(message)s'
+    "%(asctime)s %(name)s %(levelname)s "
+    "f:%(filename)s l:%(lineno)d: %(message)s"
 )
 ch.setFormatter(fmt)
 log.addHandler(ch)
 
-#print(f"{sys.argv=}")
+# print(f"{sys.argv=}")
 
 arguments = {
     "lang": None,
@@ -49,11 +49,13 @@ for arg in sys.argv[1:]:
     try:
         key, value = arg.split("=")
     except ValueError as e:
-        log.error("You need to use `=`, you passed %s, try --key=value: %s", 
-                  arg,
-                  str(e))
+        log.error(
+            "You need to use `=`, you passed %s, try --key=value: %s",
+            arg,
+            str(e),
+        )
         sys.exit(1)
-    
+
     key = key.lstrip("-").strip()
     value = value.strip()
     # Validation
@@ -97,20 +99,19 @@ except KeyError as e:
     print(f"[Error] {str(e)}")
     print(f"Language is invalid, choose from: {list(msg.keys())}")
     sys.exit(1)
-    
+
 print(message * int(arguments["count"]))
 
-#print (msg[current_language] * int(arguments["count"]))
+# print (msg[current_language] * int(arguments["count"]))
 # sets (Hash Table) - O(1) - constante
 # Ordem Complexidade O(n)
 
-#if current_language == "pt_BR":
+# if current_language == "pt_BR":
 #    msg = "Olá, Mundo!"
-#elif current_language == "it_IT":
+# elif current_language == "it_IT":
 #    msg = "Ciao, Mondo!"
-#elif current_language == "es_SP":
+# elif current_language == "es_SP":
 #    msg = "Hola, Mundo!"
-#elif current_language == "fr_FR":
+# elif current_language == "fr_FR":
 #    msg = "Bonjour, Monde!"
-#print(msg)
-
+# print(msg)

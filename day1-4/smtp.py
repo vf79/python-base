@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Exemplos de envio de e-mail
 
-Para testar o envio utilizar servidor de email fake do python rodando o comando:
-python -m smtpd -c DebuggingServer -n localhost:8025
+Para testar o envio utilizar servidor de email fake do python rodando o
+comando: python -m smtpd -c DebuggingServer -n localhost:8025
 As mensagens serão exibidas no terminal.
 
 Para servidores reais buscar tutorial de configuração.
@@ -23,7 +23,7 @@ Este é o meu e-mail enviado pelo Python
 
 # SMTP
 
-message =f"""\
+message = f"""\
 From: {FROM}
 To: {", ".join(TO)}
 Subject: {SUBJECT}
@@ -32,4 +32,4 @@ Subject: {SUBJECT}
 """
 
 with smtplib.SMTP(host=SERVER, port=PORT) as server:
-    server.sendmail(FROM,TO,message.encode("utf-8"))
+    server.sendmail(FROM, TO, message.encode("utf-8"))

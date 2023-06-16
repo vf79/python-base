@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import os
 import logging
+import os
 from logging import handlers
 
 # BOILERPLATE
@@ -11,23 +11,25 @@ log_level = os.getenv("LOG_LEVEL", "WARNING").upper()
 # Instancia
 log = logging.Logger("PYTHON-BASE", log_level)
 # Level
-#ch = logging.StreamHandler()
-#ch.setLevel(log_level)
-fh = handlers.RotatingFileHandler("meulog.log", maxBytes=10**6, backupCount=10)
+# ch = logging.StreamHandler()
+# ch.setLevel(log_level)
+fh = handlers.RotatingFileHandler(
+    "meulog.log", maxBytes=10**6, backupCount=10
+)
 fh.setLevel(log_level)
 fmt = logging.Formatter(
-    '%(asctime)s %(name)s %(levelname)s '
-    'f:%(filename)s l:%(lineno)d: %(message)s'
+    "%(asctime)s %(name)s %(levelname)s "
+    "f:%(filename)s l:%(lineno)d: %(message)s"
 )
 # Formatação
 fmt = logging.Formatter(
-    '%(asctime)s %(name)s %(levelname)s '
-    'f:%(filename)s l:%(lineno)d: %(message)s'
+    "%(asctime)s %(name)s %(levelname)s "
+    "f:%(filename)s l:%(lineno)d: %(message)s"
 )
-#ch.setFormatter(fmt)
+# ch.setFormatter(fmt)
 fh.setFormatter(fmt)
 # Destino
-#log.addHandler(ch)
+# log.addHandler(ch)
 log.addHandler(fh)
 
 """
@@ -39,6 +41,6 @@ log.critical("Erro geral ex: sem conexao banco de dados")
 """
 print("--" * 40)
 try:
-    1/0
+    1 / 0
 except ZeroDivisionError as e:
     log.error("Deu erro %s", str(e))

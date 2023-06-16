@@ -30,9 +30,9 @@ Os resultados serão salvos em `infixcalc.log`
 """
 __version__ = "0.1.0"
 
+import logging
 import os
 import sys
-import logging
 from datetime import datetime
 
 # Logging config
@@ -41,8 +41,8 @@ log = logging.Logger("PYTHON-BASE", log_level)
 ch = logging.StreamHandler()
 ch.setLevel(log_level)
 fmt = logging.Formatter(
-    '%(asctime)s %(name)s %(levelname)s '
-    'f:%(filename)s l:%(lineno)d: %(message)s'
+    "%(asctime)s %(name)s %(levelname)s "
+    "f:%(filename)s l:%(lineno)d: %(message)s"
 )
 ch.setFormatter(fmt)
 log.addHandler(ch)
@@ -50,20 +50,36 @@ log.addHandler(ch)
 arguments = sys.argv[1:]
 
 valid_operations = {
-    "sum": lambda a,b: a + b, 
-    "sub": lambda a,b: a - b,
-    "mul": lambda a,b: a * b, 
-    "div": lambda a,b: a / b,
-    }
+    "sum": lambda a, b: a + b,
+    "sub": lambda a, b: a - b,
+    "mul": lambda a, b: a * b,
+    "div": lambda a, b: a / b,
+}
 
 path = os.curdir
 filepath = os.path.join(path, "infixcalc.log")
 timestamp = datetime.now().isoformat()
-user = os.getenv('USERNAME', 'anonymous')
+user = os.getenv("USERNAME", "anonymous")
+
+
+def validate_nums(nums):
+    validated_nums = []
+
+    for num in nums:
+        if not num.replace(".", "").isdigit():
+            print(f"Número inválido {num}")
+            sys.exit(1)
+        if "." in num:
+            num = float(num)
+        else:
+            num = int(num)
+        validated_nums.append(num)
+    return validated_nums
+
 
 while True:
     # Validacao
-    
+
     if not arguments:
         operation = input("operação:")
         n1 = input("n1:")
@@ -76,23 +92,12 @@ while True:
 
     operation, *nums = arguments
 
-    
     if operation not in valid_operations:
         print("Operação inválida")
         print(valid_operations)
         sys.exit(1)
 
-    validated_nums = []
-
-    for num in nums:
-        if not num.replace(".", "").isdigit():
-            print(f"Número inválido {num}")
-            sys.exit(1)
-        if "." in num:
-            num = float(num)
-        else:
-            num = int(num)
-        validated_nums.append(num)
+    validated_nums = validate_nums(nums)
 
     try:
         n1, n2 = validated_nums
@@ -118,4 +123,3 @@ while True:
 
     if input("Pressione enter para continuar ou qualquer tecla para sair "):
         break
-

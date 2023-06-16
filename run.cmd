@@ -1,7 +1,7 @@
 @echo off
 
 chcp 65001
-set name="app"
+set name="python-base"
 
 if "%1"=="--clean" goto clean
 if "%1"=="--env" goto env
@@ -17,8 +17,7 @@ goto help
 
 :clean
     echo "Excluindo arquivos e diretorios desnecessários..."
-    :: for /d /r . %%d in (__pycache__, *.egg-info, .pytest_cache) do @if exist "%%d" rd /s /q "%%d"
-    for /d /r . %%d in (__pycache__, .pytest_cache) do @if exist "%%d" rd /s /q "%%d"
+    for /d /r . %%d in (__pycache__, *.egg-info, .pytest_cache) do @if exist "%%d" rd /s /q "%%d"
     for /r . %%f in (*.pyc) do @if exist "%%f" del "%%f"
     :: rd /s /q build
     :: rd /s /q htmlcov
